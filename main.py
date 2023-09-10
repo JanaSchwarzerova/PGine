@@ -13,9 +13,6 @@ import statsmodels.api as sm
 genotype_data = pd.read_csv(r'FinalTool_GCB_2023\Data\Genotype.csv')
 phenotype_data = pd.read_csv(r'FinalTool_GCB_2023\Data\Phenotype.csv')
 
-# Only if you want to plot the GWAS result using Manhattan Plot:
-info_SNP = pd.read_csv(r'FinalTool_GCB_2023\Data\InfoSNP.csv')
-
 # Merge genotype and phenotype data by sample ID
 data = pd.merge(genotype_data, phenotype_data, on='Ind')
 
