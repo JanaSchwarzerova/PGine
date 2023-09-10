@@ -1,5 +1,5 @@
-# PGine
-Py/PGine: software for calculation of Polygenic Risk Score (PRS) in plants
+# Py/PGine: software for calculation of Polygenic Risk Score (PRS) in plants
+
 > The presented software prototype is implemented in the main.py script
 
 ## Background
