@@ -9,7 +9,7 @@ Specifically, this approach opens up possibilities for understanding diseases in
 Later, we plan to refine and optimize this procedure through the application of Cartesian Genetic Programming (CGP).
 
 ## Dataset
-The tested dataset was taken from [2]. Thanks to these real data, we simulated healthy and sick individual - depending on the grain yield. 
+The dataset used for testing was sourced from [2]. With the help of this real dataset, we simulated both a healthy and an unhealthy individual based on grain yield. 
 
 ## Our initial prototype consists of two main parts
 > 1) Quality Control (QC) data
