@@ -1,4 +1,4 @@
-# PGine: Py/Bioconda software package for calculation of polygenic risk score in plants
+# Py/PGine: software for calculation of polygenic risk score in plants
 
 # author: Jana Schwarzerova
 # pythone v3.10.2
