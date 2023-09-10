@@ -35,4 +35,5 @@ Finally, it prints and displays the PRS results in a DataFrame.
 
 ### Reference
 [1] Zhu, Y., Chen, H., Fan, J., Wang, Y., Li, Y., Chen, J., Fan, J., Yang, S., Hu, L., Leung, H. and Mew, T.W., 2000. Genetic diversity and disease control in rice. Nature, 406(6797), pp.718-722.
+
 [2] Genome-Wide Analysis of Yield in Europe: Allelic Effects Vary with Drought and Heat Scenarios. 2016. Emilie J. Millet, Claude Welcker, Willem Kruijer, Sandra Negro, Aude Coupel-Ledru, Stéphane D. Nicolas, Jacques Laborde, Cyril Bauland, Sebastien Praud, Nicolas Ranc, Thomas Presterl, Roberto Tuberosa, Zoltan Bedo, Xavier Draye, Björn Usadel, Alain Charcosset, Fred Van Eeuwijk & François Tardieu. 2016. Plant Physiology, 172 (2) 749-764 doi: 10.1104/pp.16.00621
