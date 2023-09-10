@@ -1,5 +1,7 @@
-## Just example:
-#implementuj do funkce
+"""
+PRS_calculation.py - this script shows a short example of Polygenic Risk Score (PRS) calculation
+This PRS calculation is applied in the main script to real plant data (Maize)
+"""
 
 # Sample genetic data (variant alleles)
 genetic_data = {
@@ -12,8 +14,8 @@ genetic_data = {
 # Effect sizes (beta coefficients) for each variant
 effect_sizes = {
     'rs12345': 0.1,
-    'rs56789': 0.05,
-    'rs98765': -0.08,
+    'rs56789': 0.09,
+    'rs98765': -0.75,
     # Match each variant in genetic_data with its effect size
 }
 
