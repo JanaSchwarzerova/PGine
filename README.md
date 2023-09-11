@@ -47,10 +47,10 @@ The dataset used for testing was sourced from [2]. With the help of this real da
 
 2) Calculation of PRS based on GWAS analysis was performed:
 
- a2) GWAS – As an intermediate result, it was created a Manhattan Plot:
+   a2) GWAS – As an intermediate result, it was created a Manhattan Plot:
   ![Capture4](https://github.com/JanaSchwarzerova/PGine/assets/61159143/d4a5c28c-1a47-4bdb-9def-9b9a7221a984)
 
- b2) Subsequently, we computed the Polygenic Risk Scores (PRS). Based on the results saved in a CSV file, we proceeded to create a box plot:
+   b2) Subsequently, we computed the Polygenic Risk Scores (PRS). Based on the results saved in a CSV file, we proceeded to create a box plot:
 
  ![Capture5](https://github.com/JanaSchwarzerova/PGine/assets/61159143/a2da9a1a-c3af-4522-8c5a-8f30fb153da1)
 
