@@ -35,8 +35,9 @@ Finally, it prints and displays the PRS results in a DataFrame.
 ## Example
 
 ### Dataset
-The dataset used for testing was sourced from [2]. With the help of this real dataset, we simulated both a healthy and an unhealthy individual based on grain yield. 
+The dataset used for testing was sourced from [2]. With the help of this real dataset, we simulated both a healthy and an unhealthy individual based on grain yield. A total of 14 individuals were healthy (high yield) and 11 individuals were sick (low yield).
 
+![Capture3](https://github.com/JanaSchwarzerova/PGine/assets/61159143/941cb800-de23-4cee-883d-df5f7f8bfb4a)
 
 
 ### Reference
