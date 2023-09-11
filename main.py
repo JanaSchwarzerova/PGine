@@ -23,7 +23,8 @@ snp_quality_issues = []
 for column in df.columns[0:]:  # All columns except 'Marker'
     unique_genotypes = df[column].unique()
 
-    if len(unique_genotypes) > 3:  # We expect only 0, 1, and 2 for genotypes
+    # expect usually 0, 1, and 2 for genotypes or -1, 0 and 1
+    if len(unique_genotypes) > 3:
         snp_quality_issues.append(column)
 
 if snp_quality_issues:
@@ -42,7 +43,7 @@ for column in df.columns[1:]:  # All columns except 'Marker'
     total_genotypes = len(df[column])
     allele_frequency = allele_0_count / total_genotypes
 
-    if allele_frequency < 0.1 or allele_frequency > 0.9:  # Example: We expect frequencies in the range of 0.1 to 0.9
+    if allele_frequency < 0.1 or allele_frequency > 0.9:
         allele_frequency_issues.append(column)
 
 if allele_frequency_issues:
