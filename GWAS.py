@@ -27,11 +27,11 @@ def genome_wide_association_study(genotype_data, phenotype_data):
     genotype_data_columns = genotype_data.columns.drop('Ind')
 
     for snp in genotype_data_columns:
-        X = pd.to_numeric(data[snp])
-        X = sm.add_constant(X)
+        x = pd.to_numeric(data[snp])
+        x = sm.add_constant(x)
         y = data['phenotype']
 
-        model = sm.OLS(y, X).fit()  # Fit linear regression model
+        model = sm.OLS(y, x).fit()  # Fit linear regression model
         beta = model.params[snp]  # Coefficient represents effect size
         p_value = model.pvalues[snp]  # Calculation p-value
 
@@ -43,18 +43,18 @@ def genome_wide_association_study(genotype_data, phenotype_data):
     # For signification GWAS:
     #   same GWAS implementation - just with Bonferroni correction
 
-    alpha = 0.05 # Define the significance level (alpha) for Bonferroni correction
+    alpha = 0.05  # Define the significance level (alpha) for Bonferroni correction
 
     # Calculate the Bonferroni-corrected significance threshold
     num_tests = len(genotype_data_columns)
     bonferroni_threshold = alpha / num_tests
 
     for snp in genotype_data_columns:
-        X = pd.to_numeric(data[snp])
-        X = sm.add_constant(X)
+        x = pd.to_numeric(data[snp])
+        x = sm.add_constant(x)
         y = data['phenotype']
 
-        model = sm.OLS(y, X).fit()  # Fit linear regression model
+        model = sm.OLS(y, x).fit()  # Fit linear regression model
         beta = model.params[snp]  # Coefficient represents effect size
         p_value = model.pvalues[snp]  # Calculate p-value
 
@@ -62,11 +62,8 @@ def genome_wide_association_study(genotype_data, phenotype_data):
         if p_value <= bonferroni_threshold:
             results.append({'SNP': snp, 'P-Value': p_value, 'Effect Size (Beta)': beta})
 
-    significant_results_df  = pd.DataFrame(results)
+    significant_results_df = pd.DataFrame(results)
     significant_results_df .to_csv(r"significant_results_GWAS.csv")
-
 
 # Other possibility of expansion – GWAS:
 # https://pypi.org/projectpandasgwas/
-
-

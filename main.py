@@ -1,11 +1,10 @@
 # Py/PGine: software for calculation of polygenic risk score in plants
 
 # author: Jana Schwarzerova
-# pythone v3.10.2
+# python v3.10.2
 
 # .............................................................
 # Libraries & packages
-import numpy as np
 import pandas as pd
 import statsmodels.api as sm
 
@@ -16,7 +15,7 @@ phenotype_data = pd.read_csv(r'...\Data\Phenotype.csv')
 # .............................................................
 # Quality Control
 data = genotype_data.T
-df = data.drop('Ind', axis = 0)
+df = data.drop('Ind', axis=0)
 # ad 3a Checking the amount of SNP errors: Check the data for low-quality SNPs or genotyping errors.
 snp_quality_issues = []
 

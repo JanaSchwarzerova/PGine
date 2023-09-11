@@ -2,9 +2,6 @@
 QualityControl_script.py – this script serves as an example for simulated data for now
 """
 
-import pandas as pd
-import matplotlib.pyplot as plt
-
 # Quality control (QC) is an important step in the analysis of the Polygenic Risk Score (PRS) from genetic data.
 # It helps ensure that your input genetic data is reliable and suitable for PRS analysis.
 
@@ -17,7 +14,8 @@ from sklearn.preprocessing import StandardScaler
 
 ####################################################################################
 # 1. Sample Quality:
-# ad 1a: DNA quality control: Check that the DNA has been extracted correctly and is of sufficient concentration and quality.
+# ad 1a: DNA quality control: Check that the DNA has been extracted correctly
+#        and is of sufficient concentration and quality.
 # ad 1b: Sample quality: Check samples for any signs of contamination or degradation.
 
 # Simulated data with DNA sample concentrations
@@ -223,4 +221,3 @@ normalized_genotype_data = scaler.fit_transform(genotype_data)
 
 # Create a new DataFrame for the normalized genotype data
 normalized_df = pd.DataFrame(data=normalized_genotype_data, columns=genotype_data.columns)
-

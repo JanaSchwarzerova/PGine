@@ -1,5 +1,5 @@
 """
-PlottingMaize_ManhattanPlot.py – supporing script for plotting the Mannhatan plot
+PlottingMaize_ManhattanPlot.py – supporting script for plotting the Manhattan plot
 """
 # Libraries & packages
 import numpy as np
@@ -13,7 +13,7 @@ genotype_data = pd.read_csv(r'...\Data\Genotype.csv')
 phenotype_data = pd.read_csv(r'...\Data\Phenotype.csv')
 
 # Only if you want to plot the GWAS result using Manhattan Plot:
-info_SNP = pd.read_csv(r'...\Data\InfoSNP.csv')
+info_snp = pd.read_csv(r'...\Data\InfoSNP.csv')
 
 # Merge genotype and phenotype data by sample ID
 data = pd.merge(genotype_data, phenotype_data, on='Ind')
@@ -32,9 +32,9 @@ for snp in genotype_data_columns:
     results.append({'SNP': snp, 'P-Value': p_value, 'Effect Size (Beta)': beta})
 
 results_df = pd.DataFrame(results)
-## Calculate the Polygenic Risk Score
-info_SNP.rename(columns={'SNP.names': 'SNP'}, inplace=True)
-data_manhattan_plot = results_df.merge(info_SNP, on='SNP', how='inner')
+# Calculate the Polygenic Risk Score
+info_snp.rename(columns={'SNP.names': 'SNP'}, inplace=True)
+data_manhattan_plot = results_df.merge(info_snp, on='SNP', how='inner')
 data_manhattan_plot['NegLogP'] = -np.log10(data_manhattan_plot['P-Value'])
 
 # Load data_manhattan_plot and chromosome boundaries
