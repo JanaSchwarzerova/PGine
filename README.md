@@ -37,6 +37,20 @@ Finally, it prints and displays the PRS results in a DataFrame.
 ### Dataset
 The dataset used for testing was sourced from [2]. With the help of this real dataset, we simulated both a healthy and an unhealthy individual based on grain yield. A total of 14 individuals were healthy (high yield) and 11 individuals were sick (low yield).
 
+#### Procedure
+
+1) QC analysis was performed with the result:
+> No markers have SNP errors in the data.
+> Allele frequencies of SNPs are within the expected range for all markers.
+
+2) Calculation of PRS based on GWAS analysis was performed:
+ a2) GWAS – As an intermediate result, it was created a Manhattan Plot:
+
+  ![Capture4](https://github.com/JanaSchwarzerova/PGine/assets/61159143/d4a5c28c-1a47-4bdb-9def-9b9a7221a984)
+
+
+ b2)
+   
 
 
 ### Reference
