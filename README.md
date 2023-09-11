@@ -24,7 +24,8 @@ performing association testing for each SNP against the phenotype, and storing t
 It allows calculates Polygenic Risk Scores (PRS) by multiplying allele values *i* by their respective effect sizes and summing them, 
 resulting in PRS values for each individual *j* :
 
-![image](https://github.com/JanaSchwarzerova/PGine/assets/61159143/a319fc9f-18d7-4e96-aa72-f5a039b67266=50x25)
+![Capture2](https://github.com/JanaSchwarzerova/PGine/assets/61159143/282128df-4cab-47bd-befc-765bccca4bc6)
+
 
 which are saved in a csv file (as output). 
 
