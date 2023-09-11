@@ -8,9 +8,6 @@ Our objective is to adapt this established procedure to the field of plant biolo
 Specifically, this approach opens up possibilities for understanding diseases in individual plants within monoculture farming [1].
 Later, we plan to refine and optimize this procedure through the application of Cartesian Genetic Programming (CGP).
 
-## Dataset
-The dataset used for testing was sourced from [2]. With the help of this real dataset, we simulated both a healthy and an unhealthy individual based on grain yield. 
-
 ## Our initial prototype consists of two main parts
 > 1) Quality Control (QC) data
 > 2) PRS calculation
@@ -23,13 +20,21 @@ fall within the expected range for the population, reporting any issues detected
 
 ### 2) PRS calculation
 This second part of code conducts a Genome-Wide Association Study (GWAS) by merging genotype and phenotype data, 
-performing association testing for each SNP against the phenotype, and storing the results including p-values and effect sizes. 
-It allows calculates Polygenic Risk Scores (PRS) by multiplying allele values by their respective effect sizes and summing them, 
-resulting in PRS values for each individual, which are saved in a csv file (as output). 
+performing association testing for each SNP against the phenotype, and storing the results including p-values and effect sizes (*beta*). 
+It allows calculates Polygenic Risk Scores (PRS) by multiplying allele values *i* by their respective effect sizes and summing them, 
+resulting in PRS values for each individual *j* :
+
+![image](https://github.com/JanaSchwarzerova/PGine/assets/61159143/a319fc9f-18d7-4e96-aa72-f5a039b67266)
+
+which are saved in a csv file (as output). 
+
 Finally, it prints and displays the PRS results in a DataFrame.
 
-### Úkol 2
 
+## Example
+
+### Dataset
+The dataset used for testing was sourced from [2]. With the help of this real dataset, we simulated both a healthy and an unhealthy individual based on grain yield. 
 
 
 
