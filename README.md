@@ -55,7 +55,7 @@ The dataset used for testing was sourced from [2]. With the help of this real da
  ![Capture5](https://github.com/JanaSchwarzerova/PGine/assets/61159143/a2da9a1a-c3af-4522-8c5a-8f30fb153da1)
 
 #### Conclusion   
-From our practical example, we can see a significant difference in PRS distribution. If the PRS is low for an individual, we can therefore expect a lower yield. This is fundamentally different from the human application of PRS, where the risk of developing the disease increases with higher PRS. Based on this result, further tests will be carried out using other datasets, namely other real plant data.
+Based on our practical example, we observe a substantial variation in PRS distribution. A lower PRS in an individual is indicative of an expected decrease in yield, in contrast to the human application of PRS, where a higher PRS corresponds to an increased disease risk. Given these findings, we plan to conduct additional tests with alternative datasets, specifically other authentic plant data.
 
 ### Reference
 [1] Zhu, Y., Chen, H., Fan, J., Wang, Y., Li, Y., Chen, J., Fan, J., Yang, S., Hu, L., Leung, H. and Mew, T.W., 2000. Genetic diversity and disease control in rice. Nature, 406(6797), pp.718-722.
