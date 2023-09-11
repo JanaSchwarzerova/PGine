@@ -40,7 +40,9 @@ The dataset used for testing was sourced from [2]. With the help of this real da
 #### Procedure
 
 1) QC analysis was performed with the result:
+   
 > No markers have SNP errors in the data.
+
 > Allele frequencies of SNPs are within the expected range for all markers.
 
 2) Calculation of PRS based on GWAS analysis was performed:
@@ -48,10 +50,12 @@ The dataset used for testing was sourced from [2]. With the help of this real da
  a2) GWAS – As an intermediate result, it was created a Manhattan Plot:
   ![Capture4](https://github.com/JanaSchwarzerova/PGine/assets/61159143/d4a5c28c-1a47-4bdb-9def-9b9a7221a984)
 
+ b2) Subsequently, we computed the Polygenic Risk Scores (PRS). Based on the results saved in a CSV file, we proceeded to create a box plot:
 
- b2)
-   
+ ![Capture5](https://github.com/JanaSchwarzerova/PGine/assets/61159143/a2da9a1a-c3af-4522-8c5a-8f30fb153da1)
 
+#### Conclusion   
+From our practical example, we can see a significant difference in PRS distribution. If the PRS is low for an individual, we can therefore expect a lower yield. This is fundamentally different from the human application of PRS, where the risk of developing the disease increases with higher PRS. Based on this result, further tests will be carried out using other datasets, namely other real plant data.
 
 ### Reference
 [1] Zhu, Y., Chen, H., Fan, J., Wang, Y., Li, Y., Chen, J., Fan, J., Yang, S., Hu, L., Leung, H. and Mew, T.W., 2000. Genetic diversity and disease control in rice. Nature, 406(6797), pp.718-722.
