@@ -41,9 +41,9 @@ The dataset used for testing was sourced from [2]. With the help of this real da
 
 1) QC analysis was performed with the result:
    
-> No markers have SNP errors in the data.
+> `No markers have SNP errors in the data.`
 
-> Allele frequencies of SNPs are within the expected range for all markers.
+> `Allele frequencies of SNPs are within the expected range for all markers.`
 
 2) Calculation of PRS based on GWAS analysis was performed:
 
