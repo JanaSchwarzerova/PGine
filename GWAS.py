@@ -1,3 +1,8 @@
+# Libraries & packages
+import pandas as pd
+import statsmodels.api as sm
+
+
 def genome_wide_association_study(genotype_data, phenotype_data):
     """
     Computes a genome-wide association study, at the end the function returns a p-value
@@ -10,10 +15,6 @@ def genome_wide_association_study(genotype_data, phenotype_data):
     The code was developed using inspiration from PLINK manual and 10.1002/mpr.1608
     https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6001694/
     """
-
-    # Libraries & packages
-    import pandas as pd
-    import statsmodels.api as sm
 
     # Load genotype data (SNPs) and phenotype data
     # genotype_data = pd.read_csv(r'FinalTool_GCB_2023\Data\Genotype.csv')
