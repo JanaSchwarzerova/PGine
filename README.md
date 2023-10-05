@@ -1,3 +1,3 @@
 # Py/PGine: software for calculation of Polygenic Risk Score (PRS) in plants
 
-> Results of the implementation Cartesian genetic programming.
+> Codes for implementation Cartesian genetic programming – see ...
