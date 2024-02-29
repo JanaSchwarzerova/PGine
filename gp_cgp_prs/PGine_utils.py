@@ -1,3 +1,11 @@
+"""
+PGine: Software for PRS (Polygenic Risk Score) calculation in plants.
+Different utilities used by GP and CGP based PRS calculation.
+
+Author: Martin Hurta -  Faculty of Information Technology, Brno University of Technology, Czechia
+Version: 1.0.1
+Last update: 2024-02-29
+"""
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt

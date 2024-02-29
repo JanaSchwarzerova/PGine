@@ -1,9 +1,11 @@
 """
-PGine: Algorithm for PRS (Polygenic Risk Score) calculation using GP (Genetic Programming) algorithm.
+PGine: Software for PRS (Polygenic Risk Score) calculation in plants.
+Implementation of PRS calculation using Genetic Programming (GP).
+gplearn library (https://gplearn.readthedocs.io/en/stable/) is used for GP implementation.
 
-Author: Martin Hurta - Faculty of Information Technology, Brno University of Technology, Czechia
-Version: 1.0
-Last update: 2023-10-05
+Author: Martin Hurta -  Faculty of Information Technology, Brno University of Technology, Czechia
+Version: 1.0.1
+Last update: 2024-02-29
 """
 # Publicly available libraries and software
 import numpy as np
@@ -107,10 +109,10 @@ def gp_gwas(genotype_path, phenotype_path, gp_params):
 def main():
 
     # Genotype file path
-    genotype_path = "datasets/Yield_Genotype.csv"
+    genotype_path = "/../Data/Genotype.csv"
 
     # Phenotype file path
-    phenotype_path = "datasets/Yield_Phenotype.csv"
+    phenotype_path = "/../Data/Phenotype.csv"
 
     # Parameters of CGP
     gp_params = {

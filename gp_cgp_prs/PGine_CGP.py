@@ -1,9 +1,11 @@
 """
-PGine: Algorithm for PRS (Polygenic Risk Score) calculation using CGP (Cartesian Genetic Programming) algorithm.
+PGine: Software for PRS (Polygenic Risk Score) calculation in plants.
+Implementation of PRS calculation using Cartesian Genetic Programming (CGP).
+HAL-CGP library (https://happy-algorithms-league.github.io/hal-cgp/) is used for CGP implementation.
 
-Author: Martin Hurta - Faculty of Information Technology, Brno University of Technology, Czechia
-Version: 1.0
-Last update: 2023-10-05
+Author: Martin Hurta -  Faculty of Information Technology, Brno University of Technology, Czechia
+Version: 1.0.1
+Last update: 2024-02-29
 """
 import numpy as np
 from multiprocessing import Pool, cpu_count
@@ -165,10 +167,10 @@ def cgp_gwas(genotype_path, phenotype_path, population_params, genome_params, ea
 def main():
 
     # Genotype file path
-    genotype_path = "datasets/Yield_Genotype.csv"
+    genotype_path = "/../Data/Genotype.csv"
 
     # Phenotype file path
-    phenotype_path = "datasets/Yield_Phenotype.csv"
+    phenotype_path = "/../Data/Phenotype.csv"
 
     # Parameters of CGP
     population_params = {"n_parents": 5, "seed": 8188211}
