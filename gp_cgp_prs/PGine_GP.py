@@ -4,20 +4,21 @@ Implementation of PRS calculation using Genetic Programming (GP).
 gplearn library (https://gplearn.readthedocs.io/en/stable/) is used for GP implementation.
 
 Author: Martin Hurta -  Faculty of Information Technology, Brno University of Technology, Czechia
-Version: 1.0.1
+Version: 1.0.2
 Last update: 2024-02-29
 """
 # Publicly available libraries and software
 import numpy as np
+from tqdm import tqdm
 from multiprocessing import Pool, cpu_count
 from sklearn.model_selection import KFold
 from gplearn.genetic import SymbolicRegressor
-from PGine_utils import load_dataset, boxplot_prs, gp_prs
+from PGine_utils import load_dataset, boxplot_prs, prs_calculation
 
 
 def snp_calculation(data_x, data_y, gp_params):
     """
-        Training of GP on data of selected allele.
+    Training of GP on data of selected allele.
         5-fold cross validation is used to obtain 5 separate solutions.
         Mean fitness across individual folds is returned together with all 5 GP chromosomes.
 
@@ -51,15 +52,13 @@ def snp_calculation(data_x, data_y, gp_params):
         # Create GP according to provided parameters
         est_gp = SymbolicRegressor(population_size=gp_params["population_size"],
                                    generations=gp_params["generations"],
-                                   stopping_criteria=gp_params["stopping_criteria"],
                                    p_crossover=gp_params["p_crossover"],
                                    p_subtree_mutation=gp_params["p_subtree_mutation"],
                                    p_hoist_mutation=gp_params["p_hoist_mutation"],
                                    p_point_mutation=gp_params["p_point_mutation"],
                                    max_samples=gp_params["max_samples"],
                                    verbose=gp_params["verbose"],
-                                   parsimony_coefficient=gp_params["parsimony_coefficient"],
-                                   random_state=gp_params["random_state"])
+                                   parsimony_coefficient=gp_params["parsimony_coefficient"])
 
         # Run evolution and obtain solution and its fitness on train data
         est_gp.fit(train_x, train_y)
@@ -74,14 +73,18 @@ def snp_calculation(data_x, data_y, gp_params):
 
 def gp_gwas(genotype_path, phenotype_path, gp_params):
     """
-        Learning of GP on all alleles, effectively running GWAS.
+    Learning of GP on all alleles, effectively running GWAS.
         Results of GWAS are saved into results_path. Results include row for each allele and columns:
-        allele_name, train fitness and columns for five all parts of CGP genotype.
+        allele_name, train fitness and columns for five all parts of GP genotype.
 
     Args:
         genotype_path (str): String of path to genotype data.
         phenotype_path (str): String of path to phenotype data.
-        gp_params (dict): Parameters of CGP algorithm.
+        gp_params (dict): Parameters of GP algorithm.
+
+    Returns:
+        ndarray: Array with axis 0 including result for every SNP. Results of individual SNPs contain average fitness
+            and five functions (one per each fold).
     """
 
     # Load input SNPs data, target phenotypes and labels of individual SNPs
@@ -95,12 +98,12 @@ def gp_gwas(genotype_path, phenotype_path, gp_params):
     pool = Pool(processes=cpu_count())
     processes = []
 
-    # Run CGP algorithm on each SNP and get final fitness and solutions
+    # Run GP algorithm on each SNP and get final fitness and solutions
     for snp in data_x:
         processes.append(pool.apply_async(snp_calculation, args=(snp, data_y, gp_params)))
 
-    # Get results of CGP from processes
-    for i in range(len(processes)):
+    # Get results of GP from processes
+    for i in tqdm(range(len(processes))):
         results[i] = processes[i].get()
 
     return results
@@ -109,31 +112,30 @@ def gp_gwas(genotype_path, phenotype_path, gp_params):
 def main():
 
     # Genotype file path
-    genotype_path = "/../Data/Genotype.csv"
+    genotype_path = "../Data/Genotype.csv"
 
     # Phenotype file path
-    phenotype_path = "/../Data/Phenotype.csv"
+    phenotype_path = "../Data/Phenotype.csv"
 
-    # Parameters of CGP
+    # Parameters of GP
+    # Full description can be found at https://gplearn.readthedocs.io/en/stable/reference.html#symbolic-regressor
     gp_params = {
-        "population_size": 10,
-        "generations": 5,
-        "stopping_criteria": 0.01,
-        "p_crossover": 0.7,
-        "p_subtree_mutation": 0.1,
-        "p_hoist_mutation": 0.05,
-        "p_point_mutation": 0.1,
-        "max_samples": 0.9,
-        "verbose": 0,
-        "parsimony_coefficient": 0.01,
-        "random_state": 0
+        "population_size": 10,  # Size of GP population
+        "generations": 300,  # Number of generations of algorithm
+        "p_crossover": 0.5,  # The probability of performing crossover on a tournament winner
+        "p_subtree_mutation": 0.1,  # The probability of performing subtree mutation on a tournament winner
+        "p_hoist_mutation": 0.05,  # The probability of performing hoist mutation on a tournament winner
+        "p_point_mutation": 0.1,  # The probability of performing point mutation on a tournament winner
+        "max_samples": 0.9,  # The fraction of samples to draw from X to evaluate each program on
+        "verbose": 0,  # Suppression of intermediate results print
+        "parsimony_coefficient": 0.01,  # Constant penalizing large programs by adjusting their fitness
     }
 
-    # GWAS using CGP
+    # GWAS using GP
     results = gp_gwas(genotype_path, phenotype_path, gp_params)
 
     # Calculation of PRS from GWAS data from previous step
-    lower_prs, higher_prs = gp_prs(results, genotype_path, phenotype_path)
+    lower_prs, higher_prs = prs_calculation(results, genotype_path, phenotype_path)
 
     # Draw box plots of PRS
     boxplot_prs(lower_prs, higher_prs)

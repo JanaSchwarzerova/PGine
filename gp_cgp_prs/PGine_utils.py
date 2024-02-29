@@ -3,7 +3,7 @@ PGine: Software for PRS (Polygenic Risk Score) calculation in plants.
 Different utilities used by GP and CGP based PRS calculation.
 
 Author: Martin Hurta -  Faculty of Information Technology, Brno University of Technology, Czechia
-Version: 1.0.1
+Version: 1.0.2
 Last update: 2024-02-29
 """
 import numpy as np
@@ -14,7 +14,7 @@ import cgp
 
 def load_dataset(genotype_path, phenotype_path, snps=None):
     """
-        Load dataset data from provided paths. If list of specific snps is provided, only they will be loaded.
+    Load dataset data from provided paths. If list of specific snps is provided, only they will be loaded.
 
     Args:
         genotype_path (str): String of path to genotype data.
@@ -48,7 +48,7 @@ def load_dataset(genotype_path, phenotype_path, snps=None):
     # Save SNP labels
     snp_labels = np.asarray(df_data_x.columns)
 
-    # Create numpy arrays for use in CGP
+    # Create numpy arrays for use in calculations
     nd_data_x = np.asarray(df_data_x).transpose()
     nd_data_y = np.asarray(df_data_y)
 
@@ -57,13 +57,15 @@ def load_dataset(genotype_path, phenotype_path, snps=None):
 
 def get_the_top_snps(results):
     """
-        Get names and CGPs of SNPs in the best 20% of results obtained by GWAS.
+    Get names and functions of SNPs in the best 20% of results obtained by GWAS.
 
     Args:
+        results (ndarray): Array with axis 0 including result for every SNP. Results of individual SNPs contain average
+            fitness and five functions (one per each fold).
 
     Returns:
         ndarray: 1D array with names of SNPs that met the threshold.
-        ndarray: 2D array with CGP chromosomes for SNPs that met the threshold.
+        ndarray: 2D array with functions for SNPs that met the threshold.
         ndarray: 1D array with fitness on SNPs that met the threshold.
     """
 
@@ -87,7 +89,7 @@ def get_the_top_snps(results):
 
 def boxplot_prs(lower_prs, higher_prs):
     """
-        Show boxplot of PRS for samples with phenotype lower or higher than phenotype.
+    Show boxplot of PRS for samples with phenotype lower or higher than phenotype.
 
     Args:
         higher_prs (ndarray): PRS values for samples with higher phenotype.
@@ -111,13 +113,14 @@ def boxplot_prs(lower_prs, higher_prs):
     plt.show()
 
 
-def gp_prs(results, genotype_path, phenotype_path):
+def prs_calculation(results, genotype_path, phenotype_path):
     """
-        Calculation of PRS from results in provided GWAS file.
+    Calculation of PRS from results in provided GWAS file.
         PRS is calculated for all samples with usage of SNPs with fitness in the top 20% of all SNPs.
 
     Args:
-        results (numpy.ndarray): List of
+        results (ndarray): Array with axis 0 including result for every SNP. Results of individual SNPs contain
+            average fitness and five functions (one per each fold).
         genotype_path (str): String of path to genotype data.
         phenotype_path (str): String of path to phenotype data.
 
@@ -135,7 +138,7 @@ def gp_prs(results, genotype_path, phenotype_path):
     higher_mask = nd_data_y >= mean_phenotype
     lower_mask = nd_data_y < mean_phenotype
 
-    # Get SNPs in the top 20% and corresponding CGPs
+    # Get SNPs in the top 20% and corresponding functions
     snps, chromosomes, fitness = get_the_top_snps(results)
 
     # Inform if there are not any snps with sufficient threshold
@@ -145,26 +148,27 @@ def gp_prs(results, genotype_path, phenotype_path):
     # Load dataset, but only selected SNPs
     nd_data_x, nd_data_y, snp_labels = load_dataset(genotype_path, phenotype_path, snps)
 
-    # Results of CGPs on SNPs data
+    # Results of functions on SNPs data
     results = np.empty(shape=(np.shape(nd_data_x)), dtype=np.object_)
 
-    # Go over each SNP and corresponding CGP solutions
+    # Go over each SNP and corresponding function
     for x, snp_chromosomes, i in zip(nd_data_x, chromosomes, range(len(nd_data_x))):
 
-        # Results over all CGPs
+        # Results over all functions
         snp_results = np.empty(shape=(len(snp_chromosomes), len(x)), dtype=np.object_)
 
         # Calculate SNP by all five chromosomes
         for chromosome, j in zip(snp_chromosomes, range(len(snp_chromosomes))):
+            # Using CGP
             if type(chromosome) is cgp.individual.IndividualSingleGenome:
                 f = chromosome.to_func()
                 res = f(x)
-            else:
+            else:  # Using GP
                 res = chromosome.predict(x.reshape(-1, 1))
 
             snp_results[j] = res
 
-        # Calculate mean over five CGP solutions from different folds
+        # Calculate mean over five functions from different folds
         beta_over_snp = np.mean(snp_results, axis=0)
 
         # Append results over all samples on current SNP

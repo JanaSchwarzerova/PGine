@@ -4,7 +4,7 @@ Implementation of PRS calculation using Cartesian Genetic Programming (CGP).
 HAL-CGP library (https://happy-algorithms-league.github.io/hal-cgp/) is used for CGP implementation.
 
 Author: Martin Hurta -  Faculty of Information Technology, Brno University of Technology, Czechia
-Version: 1.0.1
+Version: 1.0.2
 Last update: 2024-02-29
 """
 import numpy as np
@@ -14,8 +14,8 @@ from tqdm import tqdm
 import functools
 import warnings
 import cgp
-from PGine_utils import load_dataset, boxplot_prs, gp_prs
-import Functions as fc
+from PGine_utils import load_dataset, boxplot_prs, prs_calculation
+import Functions as Fc
 
 # Supress warnings created by HAL-CGP library
 warnings.filterwarnings("ignore", category=DeprecationWarning)
@@ -23,7 +23,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 def objective(individual, train_x, train_y):
     """
-        Objective function for evaluation of candidate solutions.
+    Objective function for evaluation of candidate solutions.
         Fitness of individual is calculated as MSE (Mean Squared Error) on provided data.
         MSE is saved as negative value, because HAL-CGP aims to minimize the fitness.
 
@@ -70,7 +70,7 @@ def objective(individual, train_x, train_y):
 
 def snp_calculation(data_x, data_y, population_params, genome_params, ea_params, evolve_params):
     """
-        Training of CGP on data of selected allele.
+    Training of CGP on data of selected allele.
         5-fold cross validation is used to obtain 5 separate solutions.
         Mean fitness across individual folds is returned together with all 5 CGP chromosomes.
 
@@ -126,7 +126,7 @@ def snp_calculation(data_x, data_y, population_params, genome_params, ea_params,
 
 def cgp_gwas(genotype_path, phenotype_path, population_params, genome_params, ea_params, evolve_params):
     """
-        Learning of CGP on all alleles, effectively running GWAS.
+    Learning of CGP on all alleles, effectively running GWAS.
         Results of GWAS are saved into results_path. Results include row for each allele and columns:
         allele_name, train fitness and columns for five all parts of CGP genotype.
 
@@ -137,6 +137,10 @@ def cgp_gwas(genotype_path, phenotype_path, population_params, genome_params, ea
         genome_params (dict): Parameters of GP genome.
         ea_params (dict): Parameters of evolutionary algorithm.
         evolve_params (dict): Parameters of evolution process.
+
+    Returns:
+        ndarray: Array with axis 0 including result for every SNP. Results of individual SNPs contain average fitness
+            and five functions (one per each fold).
     """
 
     # Load input SNPs data, target phenotypes and labels of individual SNPs
@@ -149,6 +153,11 @@ def cgp_gwas(genotype_path, phenotype_path, population_params, genome_params, ea
     # Multiprocess results and array of processes
     pool = Pool(processes=cpu_count())
     processes = []
+
+    # Add unchangeable parameters
+    genome_params["n_inputs"] = 1
+    genome_params["n_outputs"] = 1
+    ea_params["n_processes"] = 1
 
     # Run CGP algorithm on each SNP and get final fitness and solutions
     for snp in data_x:
@@ -167,36 +176,38 @@ def cgp_gwas(genotype_path, phenotype_path, population_params, genome_params, ea
 def main():
 
     # Genotype file path
-    genotype_path = "/../Data/Genotype.csv"
+    genotype_path = "../Data/Genotype.csv"
 
     # Phenotype file path
-    phenotype_path = "/../Data/Phenotype.csv"
+    phenotype_path = "../Data/Phenotype.csv"
 
     # Parameters of CGP
-    population_params = {"n_parents": 5, "seed": 8188211}
+    population_params = {"n_parents": 5,  # Size of population
+                         "seed": np.random.randint(10000000)}  # Random seed
 
     # Parameters of CGP genomes
     genome_params = {
-        "n_inputs": 1,
-        "n_outputs": 1,
-        "n_columns": 10,
-        "n_rows": 5,
-        "levels_back": 10,
-        "primitives": (cgp.Add, cgp.Sub, cgp.Mul, cgp.ConstantFloat, fc.Identity, fc.Sin, fc.Cos, fc.ProtectedSqrt,
-                       fc.Pow, fc.Abs, fc.Minimum, fc.Maximum, fc.ProtectedDiv)
+        "n_columns": 10,  # Number of columns of CGP grid
+        "n_rows": 5,  # Number of rows of CGP grid
+        "levels_back": 10,  # Allowed length of connection between nodes
+        "primitives": (cgp.Add, cgp.Sub, cgp.Mul, cgp.ConstantFloat,  # Functions that might be used by CGP
+                       Fc.Identity, Fc.Sin, Fc.Cos, Fc.ProtectedSqrt,
+                       Fc.Pow, Fc.Abs, Fc.Minimum, Fc.Maximum, Fc.ProtectedDiv)
     }
 
     # Parameters of evolutionary algorithm
-    ea_params = {"n_offsprings": 5, "mutation_rate": 0.01, "tournament_size": 2, "n_processes": 1}
+    ea_params = {"n_offsprings": 4,  # Number of new offspring i each generation
+                 "mutation_rate": 0.01}  # Mutation rate of offspring
 
     # Parameters of evolution
-    evolve_params = {"max_generations": 100, "print_progress": False}
+    evolve_params = {"max_generations": 300,  # Number of generations
+                     "print_progress": False}  # Suppression of intermediate results print
 
     # GWAS using CGP
     results = cgp_gwas(genotype_path, phenotype_path, population_params, genome_params, ea_params, evolve_params)
 
     # Calculation of PRS from GWAS data from previous step
-    lower_prs, higher_prs = gp_prs(results, genotype_path, phenotype_path)
+    lower_prs, higher_prs = prs_calculation(results, genotype_path, phenotype_path)
 
     # Draw box plots of PRS
     boxplot_prs(lower_prs, higher_prs)
